@@ -1,17 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { toggleAddNewAdminPopup } from "./popupSlice";
 
-const initialState = {
-  loading: false,
-  error: null,
-  message: null,
-  users: [],
-};
+const API = "http://localhost:4000/api/v1/user";
 
 const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: {
+    loading: false,
+    error: null,
+    message: null,
+    users: [],
+  },
   reducers: {
     fetchAllUsersRequest: (state) => {
       state.loading = true;
@@ -24,6 +23,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
     addNewAdminRequest: (state) => {
       state.loading = true;
     },
@@ -35,35 +35,14 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
     resetUserSlice: (state) => {
       state.loading = false;
-      state.message = null;
       state.error = null;
+      state.message = null;
     },
   },
 });
-
-export const fetchAllUsers = () => async (dispatch) => {
-  dispatch(userSlice.actions.fetchAllUsersRequest());
-  try {
-    const { data } = await axios.get("/api/v1/users");
-    dispatch(userSlice.actions.fetchAllUsersSuccess(data.users));
-  } catch (error) {
-    dispatch(userSlice.actions.fetchAllUsersFailed(error.response.data.message));
-  }
-};
-
-export const addNewAdmin = (formData) => async (dispatch) => {
-  dispatch(userSlice.actions.addNewAdminRequest());
-  try {
-    const { data } = await axios.post("/api/v1/user/new-admin", formData);
-    dispatch(userSlice.actions.addNewAdminSuccess(data.message));
-    dispatch(toggleAddNewAdminPopup());
-    dispatch(fetchAllUsers());
-  } catch (error) {
-    dispatch(userSlice.actions.addNewAdminFailed(error.response.data.message));
-  }
-};
 
 export const {
   fetchAllUsersRequest,
@@ -76,3 +55,28 @@ export const {
 } = userSlice.actions;
 
 export default userSlice.reducer;
+
+export const fetchAllUsers = () => async (dispatch) => {
+  dispatch(fetchAllUsersRequest());
+  try {
+    const { data } = await axios.get(`${API}/all`, {
+      withCredentials: true,
+    });
+    dispatch(fetchAllUsersSuccess(data.users));
+  } catch (err) {
+    dispatch(fetchAllUsersFailed(err.response?.data?.message || "Failed to fetch users"));
+  }
+};
+
+export const addNewAdmin = (formData) => async (dispatch) => {
+  dispatch(addNewAdminRequest());
+  try {
+    const { data } = await axios.post(`${API}/add/new-admin`, formData, {
+      withCredentials: true,
+      headers: { "Content-Type": "application/json" },
+    });
+    dispatch(addNewAdminSuccess(data.message));
+  } catch (err) {
+    dispatch(addNewAdminFailed(err.response?.data?.message || "Failed to add admin"));
+  }
+};
