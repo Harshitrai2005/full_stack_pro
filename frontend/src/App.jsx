@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -9,7 +11,16 @@ import ForgotPassword from "./pages/ForgotPassword";
 import OTP from "./pages/OTP";
 import ResetPassword from "./pages/ResetPassword";
 
+import { getUser } from "./store/slices/authSlice";
+
 const App = () => {
+  const dispatch = useDispatch();
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
   return (
     <Router>
       <Routes>
@@ -20,7 +31,7 @@ const App = () => {
         <Route path="/otp-verification/:email" element={<OTP />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />
       </Routes>
-      <ToastContainer theme="dark"/>
+      <ToastContainer theme="dark" />
     </Router>
   );
 };
