@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../assets/black-logo.png";
 import logo_with_title from "../assets/logo-with-title.png";
 
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useParams, useNavigate, Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { otpVerification, resetAuthSlice } from "../store/slices/authSlice";
