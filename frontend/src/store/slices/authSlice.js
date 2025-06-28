@@ -122,15 +122,17 @@ export const {
   forgotPasswordRequest, forgotPasswordSuccess, forgotPasswordFailed,
   resetPasswordRequest, resetPasswordSuccess, resetPasswordFailed,
   updatePasswordRequest, updatePasswordSuccess, updatePasswordFailed,
-  resetAuthSlice, clearError, clearMessage
+  resetAuthSlice, clearError, clearMessage,
 } = authSlice.actions;
 
 export default authSlice.reducer;
 
+// THUNK FUNCTIONS — correctly mapped to backend routes
+
 export const register = (userData) => async (dispatch) => {
   try {
     dispatch(registerRequest());
-    const { data } = await axios.post(`${API}/auth/register`, userData, {
+    const { data } = await axios.post(`${API}/register`, userData, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });
@@ -143,7 +145,7 @@ export const register = (userData) => async (dispatch) => {
 export const login = (credentials) => async (dispatch) => {
   try {
     dispatch(loginRequest());
-    const { data } = await axios.post(`${API}/auth/login`, credentials, {
+    const { data } = await axios.post(`${API}/login`, credentials, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });
@@ -156,7 +158,7 @@ export const login = (credentials) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     dispatch(logoutRequest());
-    await axios.get(`${API}/auth/logout`, { withCredentials: true });
+    await axios.get(`${API}/logout`, { withCredentials: true });
     dispatch(logoutSuccess());
   } catch (err) {
     dispatch(logoutFailed(err.response?.data?.message || "Logout failed"));
@@ -166,7 +168,7 @@ export const logout = () => async (dispatch) => {
 export const otpVerification = (payload) => async (dispatch) => {
   try {
     dispatch(otpVerificationRequest());
-    const { data } = await axios.post(`${API}/auth/verify/otp`, payload, {
+    const { data } = await axios.post(`${API}/verify-otp`, payload, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });
@@ -179,17 +181,17 @@ export const otpVerification = (payload) => async (dispatch) => {
 export const getUser = () => async (dispatch) => {
   try {
     dispatch(getUserRequest());
-    const { data } = await axios.get(`${API}/auth/me`, { withCredentials: true });
+    const { data } = await axios.get(`${API}/me`, { withCredentials: true });
     dispatch(getUserSuccess(data.user));
   } catch (err) {
     dispatch(getUserFailed(err.response?.data?.message || "Failed to get user"));
   }
 };
 
-export const forgotPassword = (email) => async (dispatch) => {
+export const forgotPassword = (formData) => async (dispatch) => {
   try {
     dispatch(forgotPasswordRequest());
-    const { data } = await axios.post(`${API}/auth/pass/forgot`, { email }, {
+    const { data } = await axios.post(`${API}/password/forgot`, formData, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });
@@ -199,10 +201,13 @@ export const forgotPassword = (email) => async (dispatch) => {
   }
 };
 
-export const resetPassword = ({ token, password }) => async (dispatch) => {
+export const resetPassword = ({ token, password, confirmPassword }) => async (dispatch) => {
   try {
     dispatch(resetPasswordRequest());
-    const { data } = await axios.post(`${API}/auth/pass/reset/${token}`, { password }, {
+    const { data } = await axios.put(`${API}/password/reset/${token}`, {
+      password,
+      confirmPassword,
+    }, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });
@@ -215,7 +220,7 @@ export const resetPassword = ({ token, password }) => async (dispatch) => {
 export const updatePassword = ({ oldPassword, newPassword }) => async (dispatch) => {
   try {
     dispatch(updatePasswordRequest());
-    const { data } = await axios.put(`${API}/auth/pass/update`, {
+    const { data } = await axios.put(`${API}/password/update`, {
       oldPassword,
       newPassword,
     }, {
