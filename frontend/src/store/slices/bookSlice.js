@@ -1,29 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const initialState = {
-  loading: false,
-  error: null,
-  message: null,
-  books: [],
-};
+const API = "http://localhost:4000/api/v1/book";
 
 const bookSlice = createSlice({
   name: "book",
-  initialState,
+  initialState: {
+    loading: false,
+    books: [],
+    error: null,
+    message: null,
+  },
   reducers: {
-    fetchAllBooksRequest: (state) => {
-      state.loading = true;
-    },
-    fetchAllBooksSuccess: (state, action) => {
-      state.loading = false;
-      state.books = action.payload;
-    },
-    fetchAllBooksFailed: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-
     addBookRequest: (state) => {
       state.loading = true;
     },
@@ -36,6 +24,30 @@ const bookSlice = createSlice({
       state.error = action.payload;
     },
 
+    fetchBooksRequest: (state) => {
+      state.loading = true;
+    },
+    fetchBooksSuccess: (state, action) => {
+      state.loading = false;
+      state.books = action.payload;
+    },
+    fetchBooksFailed: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    deleteBookRequest: (state) => {
+      state.loading = true;
+    },
+    deleteBookSuccess: (state, action) => {
+      state.loading = false;
+      state.message = action.payload;
+    },
+    deleteBookFailed: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
     resetBookSlice: (state) => {
       state.loading = false;
       state.message = null;
@@ -44,34 +56,54 @@ const bookSlice = createSlice({
   },
 });
 
-export const fetchAllBooks = () => async (dispatch) => {
-  dispatch(bookSlice.actions.fetchAllBooksRequest());
-  try {
-    const { data } = await axios.get("/api/v1/books");
-    dispatch(bookSlice.actions.fetchAllBooksSuccess(data.books));
-  } catch (error) {
-    dispatch(bookSlice.actions.fetchAllBooksFailed(error.response.data.message));
-  }
-};
-
-export const addBook = (formData) => async (dispatch) => {
-  dispatch(bookSlice.actions.addBookRequest());
-  try {
-    const { data } = await axios.post("/api/v1/book/new", formData);
-    dispatch(bookSlice.actions.addBookSuccess(data.message));
-  } catch (error) {
-    dispatch(bookSlice.actions.addBookFailed(error.response.data.message));
-  }
-};
-
 export const {
-  fetchAllBooksRequest,
-  fetchAllBooksSuccess,
-  fetchAllBooksFailed,
   addBookRequest,
   addBookSuccess,
   addBookFailed,
+  fetchBooksRequest,
+  fetchBooksSuccess,
+  fetchBooksFailed,
+  deleteBookRequest,
+  deleteBookSuccess,
+  deleteBookFailed,
   resetBookSlice,
 } = bookSlice.actions;
 
 export default bookSlice.reducer;
+
+export const addBook = (formData) => async (dispatch) => {
+  dispatch(addBookRequest());
+  try {
+    const { data } = await axios.post(`${API}/admin/add`, formData, {
+      withCredentials: true,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    dispatch(addBookSuccess(data.message));
+  } catch (err) {
+    dispatch(addBookFailed(err.response?.data?.message || "Failed to add book"));
+  }
+};
+
+export const fetchBooks = () => async (dispatch) => {
+  dispatch(fetchBooksRequest());
+  try {
+    const { data } = await axios.get(`${API}/all`, {
+      withCredentials: true,
+    });
+    dispatch(fetchBooksSuccess(data.books));
+  } catch (err) {
+    dispatch(fetchBooksFailed(err.response?.data?.message || "Failed to fetch books"));
+  }
+};
+
+export const deleteBook = (id) => async (dispatch) => {
+  dispatch(deleteBookRequest());
+  try {
+    const { data } = await axios.delete(`${API}/delete/${id}`, {
+      withCredentials: true,
+    });
+    dispatch(deleteBookSuccess(data.message));
+  } catch (err) {
+    dispatch(deleteBookFailed(err.response?.data?.message || "Failed to delete book"));
+  }
+};
