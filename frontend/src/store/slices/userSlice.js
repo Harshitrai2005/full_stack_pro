@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { toggleAddNewAdminPopup } from "./popupSlice";
 
 const initialState = {
   loading: false,
@@ -8,7 +8,6 @@ const initialState = {
   message: null,
   users: [],
 };
-
 
 const userSlice = createSlice({
   name: "user",
@@ -25,7 +24,6 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-
     addNewAdminRequest: (state) => {
       state.loading = true;
     },
@@ -37,7 +35,6 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-
     resetUserSlice: (state) => {
       state.loading = false;
       state.message = null;
@@ -46,7 +43,6 @@ const userSlice = createSlice({
   },
 });
 
-// Async Functions
 export const fetchAllUsers = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchAllUsersRequest());
   try {
@@ -62,12 +58,13 @@ export const addNewAdmin = (formData) => async (dispatch) => {
   try {
     const { data } = await axios.post("/api/v1/user/new-admin", formData);
     dispatch(userSlice.actions.addNewAdminSuccess(data.message));
+    dispatch(toggleAddNewAdminPopup());
+    dispatch(fetchAllUsers());
   } catch (error) {
     dispatch(userSlice.actions.addNewAdminFailed(error.response.data.message));
   }
 };
 
-// Exports
 export const {
   fetchAllUsersRequest,
   fetchAllUsersSuccess,
