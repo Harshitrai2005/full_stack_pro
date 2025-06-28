@@ -14,7 +14,7 @@ import {
   PointElement,
   ArcElement,
 } from "chart.js";
-import Header from "../layouts/Header";
+import Header from "../layout/Header";
 import logo_with_title from "../assets/logo-with-title-black.png";
 import returnIcon from "../assets/redo.png";
 import browseIcon from "../assets/pointing.png";
