@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { recordBorrowBook } from "../store/slices/borrowSlice";
-import { toggleRecordBookPopup } from "../store/slices/popUpSlice";
+import { recordBorrowedBook } from "../store/slices/borrowSlice";
+import { toggleRecordBookPopup } from "../store/slices/popupSlice";
 
 const RecordBookPopup = ({ bookId }) => {
   const dispatch = useDispatch();
@@ -9,8 +9,7 @@ const RecordBookPopup = ({ bookId }) => {
 
   const handleRecordBook = (e) => {
     e.preventDefault();
-   dispatch(recordBorrowedBook(bookId, { email }));
-
+    dispatch(recordBorrowedBook({ bookId, email }));
   };
 
   return (
@@ -34,9 +33,7 @@ const RecordBookPopup = ({ bookId }) => {
               <button
                 className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
                 type="button"
-                onClick={() => {
-                  dispatch(toggleRecordBookPopup());
-                }}
+                onClick={() => dispatch(toggleRecordBookPopup())}
               >
                 Close
               </button>
@@ -55,4 +52,3 @@ const RecordBookPopup = ({ bookId }) => {
 };
 
 export default RecordBookPopup;
-
