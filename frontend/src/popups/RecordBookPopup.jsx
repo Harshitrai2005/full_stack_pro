@@ -9,7 +9,8 @@ const RecordBookPopup = ({ bookId }) => {
 
   const handleRecordBook = (e) => {
     e.preventDefault();
-    dispatch(recordBorrowBook(email, bookId));
+   dispatch(recordBorrowedBook(bookId, { email }));
+
   };
 
   return (
