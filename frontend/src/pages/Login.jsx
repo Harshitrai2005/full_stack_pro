@@ -17,13 +17,15 @@ const Login = () => {
     (state) => state.auth
   );
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    data.append("email", email);
-    data.append("password", password);
-    dispatch(login(data));
+ const handleLogin = (e) => {
+  e.preventDefault();
+  const data = {
+    email,
+    password,
   };
+  dispatch(login(data)); 
+};
+
 
   useEffect(() => {
     if (message) {
