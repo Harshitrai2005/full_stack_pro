@@ -80,3 +80,18 @@ export const addNewAdmin = (formData) => async (dispatch) => {
     dispatch(addNewAdminFailed(err.response?.data?.message || "Failed to add admin"));
   }
 };
+
+
+export const promoteUserToAdmin = (email) => async (dispatch) => {
+  dispatch(addNewAdminRequest());
+  try {
+    const { data } = await axios.post(`${API}/make-admin`, { email }, {
+      withCredentials: true,
+      headers: { "Content-Type": "application/json" },
+    });
+    dispatch(addNewAdminSuccess(data.message));
+  } catch (err) {
+    dispatch(addNewAdminFailed(err.response?.data?.message || "Failed to promote user"));
+  }
+};
+
