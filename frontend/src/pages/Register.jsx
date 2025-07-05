@@ -24,16 +24,17 @@ const Register = () => {
   );
 
   const handleRegister = (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    const data = {
-  name,
-  email,
-  password,
-};
-dispatch(register(data)); 
+  e.preventDefault();
 
+  const data = {
+    name,
+    email,
+    password,
   };
+
+  dispatch(register(data)); 
+};
+
 
   useEffect(() => {
     if (message) {
