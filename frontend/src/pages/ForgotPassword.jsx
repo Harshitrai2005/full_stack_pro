@@ -15,11 +15,10 @@ const ForgotPassword = () => {
   );
 
   const handleForgotPassword = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", email.trim());
-    dispatch(forgotPassword(formData));
-  };
+  e.preventDefault();
+  dispatch(forgotPassword({ email: email.trim() }));
+};
+
 
   useEffect(() => {
     if (message) {
