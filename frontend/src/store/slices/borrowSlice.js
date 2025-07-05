@@ -125,12 +125,12 @@ export const recordBorrowedBook = ({ bookId, email }) => async (dispatch) => {
 };
 
 
-export const returnBorrowedBook = (bookId, email) => async (dispatch) => {
+export const returnBorrowedBook = ({ bookId, email }) => async (dispatch) => {
   dispatch(returnBorrowedBookRequest());
   try {
     const { data } = await axios.put(
       `${API}/return-borrowed-book/${bookId}`,
-      { email }, 
+      { email }, // this is your JSON body
       {
         withCredentials: true,
         headers: {
@@ -143,4 +143,5 @@ export const returnBorrowedBook = (bookId, email) => async (dispatch) => {
     dispatch(returnBorrowedBookFailed(err.response?.data?.message || "Failed"));
   }
 };
+
 
