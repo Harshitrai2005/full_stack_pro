@@ -31,10 +31,11 @@ const AdminDashboard = () => {
     dispatch(fetchAllBorrowedBooks());
   }, [dispatch]);
 
-  const totalUsers = users.filter((u) => u.role === "User").length;
-  const totalBooks = books.length;
-  const totalBorrowed = allBorrowedBooks.length;
-  const totalReturned = allBorrowedBooks.filter((b) => b.returned === true).length;
+const totalUsers = useMemo(() => users.filter((u) => u.role === "User").length, [users]);
+const totalBooks = useMemo(() => books.length, [books]);
+const totalBorrowed = useMemo(() => allBorrowedBooks.length, [allBorrowedBooks]);
+const totalReturned = useMemo(() => allBorrowedBooks.filter((b) => b.returned).length, [allBorrowedBooks]);
+
 
   const chartData = {
     labels: ["Borrowed", "Returned"],
