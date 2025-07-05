@@ -17,22 +17,22 @@ const ResetPassword = () => {
     (state) => state.auth
   );
 
-  const handleResetPassword = (e) => {
-    e.preventDefault();
+ const handleResetPassword = (e) => {
+  e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
+  if (newPassword !== confirmPassword) {
+    toast.error("Passwords do not match");
+    return;
+  }
 
-    const data = new FormData();
-    data.append("password", password);
-    data.append("newPassword", newPassword);
-    data.append("confirmPassword", confirmPassword);
-    data.append("token", token);
-
-    dispatch(resetPassword(data));
-  };
+  dispatch(
+    resetPassword({
+      token,
+      password: newPassword,
+      confirmPassword,
+    })
+  );
+};
 
   useEffect(() => {
     if (message) {
