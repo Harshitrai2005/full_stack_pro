@@ -145,15 +145,18 @@ export const register = (userData) => async (dispatch) => {
 export const login = (credentials) => async (dispatch) => {
   try {
     dispatch(loginRequest());
+
+    
     const { data } = await axios.post(`${API}/login`, credentials, {
       withCredentials: true,
-      headers: { "Content-Type": "application/json" },
     });
+
     dispatch(loginSuccess(data.user));
   } catch (err) {
     dispatch(loginFailed(err.response?.data?.message || "Login failed"));
   }
 };
+
 
 export const logout = () => async (dispatch) => {
   try {
