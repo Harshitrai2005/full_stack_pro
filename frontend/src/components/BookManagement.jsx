@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BookA, NotebookPen } from "lucide-react";
+
 import { fetchAllBooks } from "../store/slices/bookSlice";
 import {
   toggleAddBookPopup,
   toggleReadBookPopup,
   toggleRecordBookPopup,
 } from "../store/slices/popupSlice";
+
 import AddBookPopup from "../popups/AddBookPopup";
 import ReadBookPopup from "../popups/ReadBookPopup";
 import RecordBookPopup from "../popups/RecordBookPopup";
@@ -21,6 +23,7 @@ const BookManagement = () => {
 
   const [search, setSearch] = useState("");
   const [filteredBooks, setFilteredBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null); 
 
   useEffect(() => {
     dispatch(fetchAllBooks());
@@ -38,11 +41,13 @@ const BookManagement = () => {
   }, [search, books]);
 
   const openReadPopup = (book) => {
-    dispatch(toggleReadBookPopup(book));
+    setSelectedBook(book);
+    dispatch(toggleReadBookPopup());
   };
 
   const openRecordPopup = (book) => {
-    dispatch(toggleRecordBookPopup(book));
+    setSelectedBook(book);
+    dispatch(toggleRecordBookPopup());
   };
 
   return (
@@ -79,6 +84,7 @@ const BookManagement = () => {
                 <th className="px-6 py-3 text-left">Price</th>
                 <th className="px-6 py-3 text-left">Quantity</th>
                 <th className="px-6 py-3 text-left">Availability</th>
+                <th className="px-6 py-3 text-left">View</th>
                 {user?.role === "Admin" && (
                   <th className="px-6 py-3 text-left">Record Book</th>
                 )}
@@ -96,6 +102,14 @@ const BookManagement = () => {
                   <td className="px-6 py-4">{book.quantity}</td>
                   <td className="px-6 py-4">
                     {book.availability ? "Available" : "Unavailable"}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={() => openReadPopup(book)}
+                      className="text-blue-600 hover:underline"
+                    >
+                      View
+                    </button>
                   </td>
                   {user?.role === "Admin" && (
                     <td className="px-6 py-4">
@@ -116,8 +130,8 @@ const BookManagement = () => {
       )}
 
       {addBookPopup && <AddBookPopup />}
-      {readBookPopup && <ReadBookPopup />}
-      {recordBookPopup && <RecordBookPopup />}
+      {readBookPopup && selectedBook && <ReadBookPopup book={selectedBook} />} 
+      {recordBookPopup && selectedBook && <RecordBookPopup book={selectedBook} />}
     </div>
   );
 };
