@@ -221,12 +221,13 @@ export const resetPassword = ({ token, password, confirmPassword }) => async (di
   }
 };
 
-export const updatePassword = ({ oldPassword, newPassword }) => async (dispatch) => {
+export const updatePassword = ({ currentPassword, newPassword, confirmNewPassword }) => async (dispatch) => {
   try {
     dispatch(updatePasswordRequest());
     const { data } = await axios.put(`${API}/password/update`, {
-      oldPassword,
+      currentPassword,
       newPassword,
+      confirmNewPassword,
     }, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
