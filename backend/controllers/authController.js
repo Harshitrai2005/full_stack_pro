@@ -92,7 +92,8 @@ export const verifyOTP = catchAsyncErrors(async (req, res, next) => {
 
     sendToken(user, 200, "Account Verified", res);
   } catch (error) {
-    console.log(error);
+    return next(new ErrorHandler("Internal Server Error", 500));
+
     
   }
 });
