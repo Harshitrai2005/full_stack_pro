@@ -10,8 +10,13 @@ const userSlice = createSlice({
     error: null,
     message: null,
     users: [],
+
+    promoteLoading: false,
+    promoteError: null,
+    promoteMessage: null,
   },
   reducers: {
+    // Fetch All Users
     fetchAllUsersRequest: (state) => {
       state.loading = true;
     },
@@ -24,6 +29,7 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
 
+    // Add New Admin
     addNewAdminRequest: (state) => {
       state.loading = true;
     },
@@ -36,10 +42,27 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
 
+    // Promote User to Admin
+    promoteUserRequest: (state) => {
+      state.promoteLoading = true;
+    },
+    promoteUserSuccess: (state, action) => {
+      state.promoteLoading = false;
+      state.promoteMessage = action.payload;
+    },
+    promoteUserFailed: (state, action) => {
+      state.promoteLoading = false;
+      state.promoteError = action.payload;
+    },
+
+    // Reset All User-Related States
     resetUserSlice: (state) => {
       state.loading = false;
       state.error = null;
       state.message = null;
+      state.promoteLoading = false;
+      state.promoteError = null;
+      state.promoteMessage = null;
     },
   },
 });
@@ -51,11 +74,15 @@ export const {
   addNewAdminRequest,
   addNewAdminSuccess,
   addNewAdminFailed,
+  promoteUserRequest,
+  promoteUserSuccess,
+  promoteUserFailed,
   resetUserSlice,
 } = userSlice.actions;
 
 export default userSlice.reducer;
 
+// Thunks
 export const fetchAllUsers = () => async (dispatch) => {
   dispatch(fetchAllUsersRequest());
   try {
@@ -73,7 +100,6 @@ export const addNewAdmin = (formData) => async (dispatch) => {
   try {
     const { data } = await axios.post(`${API}/add/new-admin`, formData, {
       withCredentials: true,
-     
     });
     dispatch(addNewAdminSuccess(data.message));
   } catch (err) {
@@ -81,17 +107,19 @@ export const addNewAdmin = (formData) => async (dispatch) => {
   }
 };
 
-
 export const promoteUserToAdmin = (email) => async (dispatch) => {
-  dispatch(addNewAdminRequest());
+  dispatch(promoteUserRequest());
   try {
-    const { data } = await axios.post(`${API}/make-admin`, { email }, {
-      withCredentials: true,
-      headers: { "Content-Type": "application/json" },
-    });
-    dispatch(addNewAdminSuccess(data.message));
+    const { data } = await axios.post(
+      `${API}/make-admin`,
+      { email },
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    dispatch(promoteUserSuccess(data.message));
   } catch (err) {
-    dispatch(addNewAdminFailed(err.response?.data?.message || "Failed to promote user"));
+    dispatch(promoteUserFailed(err.response?.data?.message || "Failed to promote user"));
   }
 };
-
