@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import closeIcon from "../assets/close-square.png";
 import { useDispatch, useSelector } from "react-redux";
-import { returnBook } from "../store/slices/borrowSlice";
+import { returnBorrowedBook } from "../store/slices/borrowSlice";
 import { toast } from "react-hot-toast";
 import { toggleReturnBookPopup } from "../store/slices/popupSlice";
 
@@ -12,18 +12,17 @@ const ReturnBookPopup = () => {
   const [bookId] = useState(returnBookPopupData?._id || "");
   const [email] = useState(returnBookPopupData?.userEmail || "");
 
- const handleReturn = () => {
-  if (!bookId || !email) {
-    toast.error("Missing book or email");
-    return;
-  }
+  const handleReturn = () => {
+    if (!bookId || !email) {
+      toast.error("Missing book or email");
+      return;
+    }
 
-  dispatch(returnBook(bookId, email)).then(() => {
-    toast.success("Book returned successfully");
-    dispatch(toggleReturnBookPopup());
-  });
-};
-
+    dispatch(returnBorrowedBook(bookId, email)).then(() => {
+      toast.success("Book returned successfully");
+      dispatch(toggleReturnBookPopup());
+    });
+  };
 
   const handleClose = () => {
     dispatch(toggleReturnBookPopup());
@@ -45,7 +44,7 @@ const ReturnBookPopup = () => {
           <span className="font-medium">
             {returnBookPopupData?.title || "Unknown"}
           </span>{" "}
-         ?
+          ?
         </p>
 
         <div className="flex justify-between mt-4">
