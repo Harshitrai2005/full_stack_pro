@@ -35,7 +35,7 @@ const OTP = () => {
 
   const handleOtpVerification = (e) => {
     e.preventDefault();
-    dispatch(otpVerification(email, otp));
+    dispatch(otpVerification({email, otp});
   };
 
   return (
