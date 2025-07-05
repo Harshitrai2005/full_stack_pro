@@ -70,4 +70,21 @@ res.status(201).json({
 })
 
 
+
+
 })
+
+export const makeUserAdmin = catchAsyncErrors(async (req, res, next) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email, accountVerified: true });
+  if (!user) return next(new ErrorHandler("User not found", 404));
+
+  user.role = "Admin";
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: `${user.name} has been promoted to Admin.`,
+  });
+});
