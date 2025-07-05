@@ -10,7 +10,7 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import OTP from "./pages/OTP";
 import ResetPassword from "./pages/ResetPassword";
-
+import UpdatePassword from "./pages/UpdatePassword";
 import { getUser } from "./store/slices/authSlice";
 
 const App = () => {
@@ -30,6 +30,7 @@ const App = () => {
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/otp-verification/:email" element={<OTP />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />
+        <Route path="/password/update" element={<UpdatePassword />} />
       </Routes>
       <ToastContainer theme="dark" />
     </Router>
