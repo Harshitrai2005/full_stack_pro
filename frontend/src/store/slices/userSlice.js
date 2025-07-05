@@ -73,7 +73,7 @@ export const addNewAdmin = (formData) => async (dispatch) => {
   try {
     const { data } = await axios.post(`${API}/add/new-admin`, formData, {
       withCredentials: true,
-      headers: { "Content-Type": "application/json" },
+     
     });
     dispatch(addNewAdminSuccess(data.message));
   } catch (err) {
