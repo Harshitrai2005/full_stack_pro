@@ -33,10 +33,11 @@ const OTP = () => {
     return <Navigate to="/" />;
   }
 
-  const handleOtpVerification = (e) => {
-    e.preventDefault();
-    dispatch(otpVerification({email, otp});
-  };
+ const handleOtpVerification = (e) => {
+  e.preventDefault();
+  dispatch(otpVerification({ email, otp })); 
+};
+
 
   return (
     <div className="flex flex-col justify-center md:flex-row h-screen">
