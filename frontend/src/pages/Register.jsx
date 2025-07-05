@@ -26,11 +26,13 @@ const Register = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     const data = new FormData();
-    data.append("name", name);
-    data.append("email", email);
-    data.append("password", password);
+    const data = {
+  name,
+  email,
+  password,
+};
+dispatch(register(data)); 
 
-    dispatch(register(data));
   };
 
   useEffect(() => {
