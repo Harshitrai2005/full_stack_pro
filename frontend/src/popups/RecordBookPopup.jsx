@@ -9,7 +9,11 @@ const RecordBookPopup = ({ bookId }) => {
 
   const handleRecordBook = (e) => {
   e.preventDefault();
-  dispatch(recordBorrowedBook({ bookId, email })); 
+  dispatch(recordBorrowedBook({ bookId, email }))
+  .then(() => {
+    toast.success("Book recorded successfully");
+    dispatch(toggleRecordBookPopup());
+  });
 
 };
 
