@@ -6,17 +6,17 @@ import { Navigate } from "react-router-dom";
 
 const UpdatePassword = () => {
   const dispatch = useDispatch();
-  const { loading, error, message, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, message, error, isAuthenticated } = useSelector((state) => state.auth);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
-  const handleUpdatePassword = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (newPassword !== confirmNewPassword) {
-      toast.error("New passwords do not match");
+      toast.error("New and confirm passwords do not match");
       return;
     }
 
@@ -37,39 +37,48 @@ const UpdatePassword = () => {
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
-    <form onSubmit={handleUpdatePassword} className="max-w-md mx-auto space-y-4 mt-10">
-      <input
-        type="password"
-        placeholder="Current Password"
-        value={oldPassword}
-        onChange={(e) => setOldPassword(e.target.value)}
-        className="w-full px-4 py-2 border border-gray-300 rounded"
-        required
-      />
-      <input
-        type="password"
-        placeholder="New Password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-        className="w-full px-4 py-2 border border-gray-300 rounded"
-        required
-      />
-      <input
-        type="password"
-        placeholder="Confirm New Password"
-        value={confirmNewPassword}
-        onChange={(e) => setConfirmNewPassword(e.target.value)}
-        className="w-full px-4 py-2 border border-gray-300 rounded"
-        required
-      />
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-black text-white py-2 rounded hover:bg-white hover:text-black border-2 border-black transition"
-      >
-        {loading ? "Updating..." : "Update Password"}
-      </button>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <form onSubmit={handleSubmit} className="bg-white shadow-md p-6 rounded-md w-full max-w-sm">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Update Password</h2>
+
+        <input
+          type="password"
+          placeholder="Current Password"
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
+          required
+          className="w-full px-4 py-2 mb-3 border rounded"
+        />
+        <input
+          type="password"
+          placeholder="New Password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          required
+          className="w-full px-4 py-2 mb-3 border rounded"
+        />
+        <input
+          type="password"
+          placeholder="Confirm New Password"
+          value={confirmNewPassword}
+          onChange={(e) => setConfirmNewPassword(e.target.value)}
+          required
+          className="w-full px-4 py-2 mb-4 border rounded"
+        />
+
+        <button
+          type="submit"
+          disabled={loading}
+          className={`w-full py-2 font-semibold rounded transition ${
+            loading
+              ? "bg-gray-300 text-white cursor-not-allowed"
+              : "bg-black text-white hover:bg-white hover:text-black border-2 border-black"
+          }`}
+        >
+          {loading ? "Updating..." : "Update Password"}
+        </button>
+      </form>
+    </div>
   );
 };
 
