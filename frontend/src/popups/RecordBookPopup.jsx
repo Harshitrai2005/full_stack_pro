@@ -8,9 +8,10 @@ const RecordBookPopup = ({ bookId }) => {
   const [email, setEmail] = useState("");
 
   const handleRecordBook = (e) => {
-    e.preventDefault();
-    dispatch(recordBorrowedBook({ bookId, email }));
-  };
+  e.preventDefault();
+  dispatch(recordBorrowedBook(bookId, { email }));
+};
+
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 p-5 flex items-center justify-center z-50">
