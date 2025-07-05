@@ -1,11 +1,24 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers, addNewAdmin, resetUserSlice } from "../../store/slices/userSlice";
+import {
+  fetchAllUsers,
+  resetUserSlice,
+  promoteUserToAdmin,
+} from "../../store/slices/userSlice";
 import { toast } from "react-hot-toast";
 
 const Users = () => {
   const dispatch = useDispatch();
-  const { users, loading, error, message } = useSelector((state) => state.user);
+
+  const {
+    users,
+    loading,
+    error,
+    message,
+    promoteLoading,
+    promoteError,
+    promoteMessage,
+  } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -23,14 +36,26 @@ const Users = () => {
     }
   }, [dispatch, error, message]);
 
-  const handleMakeAdmin = (email) => {
-  dispatch(addNewAdmin({ email }));
-};
+  useEffect(() => {
+    if (promoteMessage) {
+      toast.success(promoteMessage);
+      dispatch(resetUserSlice());
+      dispatch(fetchAllUsers());
+    }
+    if (promoteError) {
+      toast.error(promoteError);
+      dispatch(resetUserSlice());
+    }
+  }, [dispatch, promoteMessage, promoteError]);
 
+  const handleMakeAdmin = (email) => {
+    dispatch(promoteUserToAdmin(email));
+  };
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">All Users</h2>
+
       {loading ? (
         <p className="text-lg text-gray-600">Loading users...</p>
       ) : (
@@ -51,13 +76,16 @@ const Users = () => {
                   <td className="py-2 px-4 border">{u.email}</td>
                   <td className="py-2 px-4 border">{u.role}</td>
                   <td className="py-2 px-4 border">
-                    {u.role !== "Admin" && (
+                    {u.role !== "Admin" ? (
                       <button
                         onClick={() => handleMakeAdmin(u.email)}
-                        className="bg-black text-white px-4 py-1 rounded hover:bg-gray-800"
+                        className="bg-black text-white px-4 py-1 rounded hover:bg-gray-800 disabled:opacity-50"
+                        disabled={promoteLoading}
                       >
-                        Make Admin
+                        {promoteLoading ? "Processing..." : "Make Admin"}
                       </button>
+                    ) : (
+                      <span className="text-green-600 font-semibold">Admin</span>
                     )}
                   </td>
                 </tr>
@@ -77,4 +105,3 @@ const Users = () => {
 };
 
 export default Users;
-
