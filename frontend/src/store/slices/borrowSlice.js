@@ -111,10 +111,10 @@ export const fetchAllBorrowedBooks = () => async (dispatch) => {
   }
 };
 
-export const recordBorrowedBook = (bookId, formData) => async (dispatch) => {
+export const recordBorrowedBook = ({ bookId, email }) => async (dispatch) => {
   dispatch(recordBorrowedBookRequest());
   try {
-    const { data } = await axios.post(`${API}/record-borrow-book/${bookId}`, formData, {
+    const { data } = await axios.post(`${API}/record-borrow-book/${bookId}`, { email }, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });
@@ -123,6 +123,7 @@ export const recordBorrowedBook = (bookId, formData) => async (dispatch) => {
     dispatch(recordBorrowedBookFailed(err.response?.data?.message || "Failed"));
   }
 };
+
 
 export const returnBorrowedBook = (bookId, email) => async (dispatch) => {
   dispatch(returnBorrowedBookRequest());
