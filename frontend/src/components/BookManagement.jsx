@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BookA, NotebookPen } from "lucide-react";
+import { BookA, NotebookPen, Trash2 } from "lucide-react";
+import { toast } from "react-hot-toast";
 
-import { fetchAllBooks } from "../store/slices/bookSlice";
+import { fetchAllBooks, deleteBook } from "../store/slices/bookSlice";
 import {
   toggleAddBookPopup,
   toggleReadBookPopup,
@@ -50,6 +51,15 @@ const BookManagement = () => {
     dispatch(toggleRecordBookPopup());
   };
 
+  const handleDeleteBook = (bookId) => {
+    if (window.confirm("Are you sure you want to delete this book?")) {
+      dispatch(deleteBook(bookId)).then(() => {
+        toast.success("Book deleted successfully!");
+        dispatch(fetchAllBooks());
+      });
+    }
+  };
+
   return (
     <div className="w-full px-4 py-6 md:px-10 md:py-10">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
@@ -86,7 +96,10 @@ const BookManagement = () => {
                 <th className="px-6 py-3 text-left">Availability</th>
                 <th className="px-6 py-3 text-left">View</th>
                 {user?.role === "Admin" && (
-                  <th className="px-6 py-3 text-left">Record Book</th>
+                  <>
+                    <th className="px-6 py-3 text-left">Record Book</th>
+                    <th className="px-6 py-3 text-left">Delete</th>
+                  </>
                 )}
               </tr>
             </thead>
@@ -112,15 +125,26 @@ const BookManagement = () => {
                     </button>
                   </td>
                   {user?.role === "Admin" && (
-                    <td className="px-6 py-4">
-                      <button
-                        onClick={() => openRecordPopup(book)}
-                        className="flex items-center text-sm text-blue-600 font-medium hover:underline"
-                      >
-                        <NotebookPen className="w-4 h-4 mr-1" />
-                        Record
-                      </button>
-                    </td>
+                    <>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => openRecordPopup(book)}
+                          className="flex items-center text-sm text-blue-600 font-medium hover:underline"
+                        >
+                          <NotebookPen className="w-4 h-4 mr-1" />
+                          Record
+                        </button>
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleDeleteBook(book._id)}
+                          className="flex items-center text-sm text-red-600 font-medium hover:underline"
+                        >
+                          <Trash2 className="w-4 h-4 mr-1" />
+                          Delete
+                        </button>
+                      </td>
+                    </>
                   )}
                 </tr>
               ))}
