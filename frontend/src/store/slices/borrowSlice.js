@@ -124,14 +124,22 @@ export const recordBorrowedBook = (bookId, formData) => async (dispatch) => {
   }
 };
 
-export const returnBorrowedBook = (bookId) => async (dispatch) => {
+export const returnBorrowedBook = (bookId, email) => async (dispatch) => {
   dispatch(returnBorrowedBookRequest());
   try {
-    const { data } = await axios.put(`${API}/return-borrowed-book/${bookId}`, {}, {
-      withCredentials: true,
-    });
+    const { data } = await axios.put(
+      `${API}/return-borrowed-book/${bookId}`,
+      { email }, 
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     dispatch(returnBorrowedBookSuccess(data.message));
   } catch (err) {
     dispatch(returnBorrowedBookFailed(err.response?.data?.message || "Failed"));
   }
 };
+
