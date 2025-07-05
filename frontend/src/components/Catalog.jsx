@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-import { fetchAllBorrowedBooks, resetBorrowSlice } from "../store/slices/borrowSlice";
+import {
+  fetchAllBorrowedBooks,
+  resetBorrowSlice,
+} from "../store/slices/borrowSlice";
 import { fetchAllBooks, resetBookSlice } from "../store/slices/bookSlice";
-import { toggleReturnBookPopup } from "../store/slices/popUpSlice";
+import { toggleReturnBookPopup } from "../store/slices/popupSlice";
 
 // Icons
 import { PiKeyReturnBold } from "react-icons/pi";
@@ -12,10 +15,13 @@ import { FaSquareCheck } from "react-icons/fa6";
 const Catalog = () => {
   const dispatch = useDispatch();
   const { returnBookPopup } = useSelector((state) => state.popup);
-  const { loading, error, allBorrowedBooks, message } = useSelector((state) => state.borrow);
+  const { loading, error, allBorrowedBooks, message } = useSelector(
+    (state) => state.borrow
+  );
+
   const [filter, setFilter] = useState("borrowed");
   const [email, setEmail] = useState("");
-  const [borrowedBookId, setBorrowedBookId] = useState("");
+  const [borrowedBook, setBorrowedBook] = useState(null);
 
   const formatDateTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -30,15 +36,23 @@ const Catalog = () => {
 
   const currentDate = new Date();
 
-  const borrowedBooks = allBorrowedBooks?.filter((book) => new Date(book.dueDate) > currentDate);
-  const overdueBooks = allBorrowedBooks?.filter((book) => new Date(book.dueDate) <= currentDate);
+  const borrowedBooks = allBorrowedBooks?.filter(
+    (book) => new Date(book.dueDate) > currentDate
+  );
+  const overdueBooks = allBorrowedBooks?.filter(
+    (book) => new Date(book.dueDate) <= currentDate
+  );
   const booksToDisplay = filter === "borrowed" ? borrowedBooks : overdueBooks;
 
-  const openReturnBookPopup = (bookId, email) => {
-    setBorrowedBookId(bookId);
-    setEmail(email);
-    dispatch(toggleReturnBookPopup());
+  const openReturnBookPopup = (book) => {
+    setBorrowedBook(book);
+    dispatch(toggleReturnBookPopup(book)); 
   };
+
+  useEffect(() => {
+    dispatch(fetchAllBooks());
+    dispatch(fetchAllBorrowedBooks());
+  }, [dispatch]);
 
   useEffect(() => {
     if (message) {
@@ -60,13 +74,17 @@ const Catalog = () => {
 
       <div className="mb-4">
         <button
-          className={`mr-2 px-4 py-2 rounded ${filter === "borrowed" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          className={`mr-2 px-4 py-2 rounded ${
+            filter === "borrowed" ? "bg-blue-600 text-white" : "bg-gray-200"
+          }`}
           onClick={() => setFilter("borrowed")}
         >
           Borrowed
         </button>
         <button
-          className={`px-4 py-2 rounded ${filter === "overdue" ? "bg-red-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${
+            filter === "overdue" ? "bg-red-600 text-white" : "bg-gray-200"
+          }`}
           onClick={() => setFilter("overdue")}
         >
           Overdue
@@ -78,16 +96,25 @@ const Catalog = () => {
       ) : (
         <div className="space-y-3">
           {booksToDisplay?.map((book) => (
-            <div key={book._id} className="p-4 border rounded shadow flex justify-between items-center">
+            <div
+              key={book._id}
+              className="p-4 border rounded shadow flex justify-between items-center"
+            >
               <div>
-                <p><strong>Title:</strong> {book.title}</p>
-                <p><strong>Email:</strong> {book.userEmail}</p>
-                <p><strong>Due Date:</strong> {formatDateTime(book.dueDate)}</p>
+                <p>
+                  <strong>Title:</strong> {book.title}
+                </p>
+                <p>
+                  <strong>Email:</strong> {book.user.email}
+                </p>
+                <p>
+                  <strong>Due Date:</strong> {formatDateTime(book.dueDate)}
+                </p>
               </div>
               <div className="flex flex-col items-end gap-2">
                 {filter === "borrowed" ? (
                   <button
-                    onClick={() => openReturnBookPopup(book._id, book.userEmail)}
+                    onClick={() => openReturnBookPopup(book)}
                     className="flex items-center gap-2 px-3 py-2 bg-black text-white rounded hover:bg-gray-800"
                   >
                     <PiKeyReturnBold size={18} /> Return
