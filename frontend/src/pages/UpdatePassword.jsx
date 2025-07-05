@@ -8,7 +8,7 @@ const UpdatePassword = () => {
   const dispatch = useDispatch();
   const { loading, error, message, isAuthenticated } = useSelector((state) => state.auth);
 
-  const [currentPassword, setCurrentPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
@@ -20,7 +20,7 @@ const UpdatePassword = () => {
       return;
     }
 
-    dispatch(updatePassword({ currentPassword, newPassword, confirmNewPassword }));
+    dispatch(updatePassword({ oldPassword, newPassword }));
   };
 
   useEffect(() => {
@@ -34,37 +34,34 @@ const UpdatePassword = () => {
     }
   }, [message, error, dispatch]);
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
+  if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
-    <form onSubmit={handleUpdatePassword} className="max-w-md mx-auto space-y-4">
+    <form onSubmit={handleUpdatePassword} className="max-w-md mx-auto space-y-4 mt-10">
       <input
         type="password"
-        value={currentPassword}
-        onChange={(e) => setCurrentPassword(e.target.value)}
         placeholder="Current Password"
-        className="w-full border border-gray-300 px-4 py-2 rounded"
+        value={oldPassword}
+        onChange={(e) => setOldPassword(e.target.value)}
+        className="w-full px-4 py-2 border border-gray-300 rounded"
         required
       />
       <input
         type="password"
+        placeholder="New Password"
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
-        placeholder="New Password"
-        className="w-full border border-gray-300 px-4 py-2 rounded"
+        className="w-full px-4 py-2 border border-gray-300 rounded"
         required
       />
       <input
         type="password"
+        placeholder="Confirm New Password"
         value={confirmNewPassword}
         onChange={(e) => setConfirmNewPassword(e.target.value)}
-        placeholder="Confirm New Password"
-        className="w-full border border-gray-300 px-4 py-2 rounded"
+        className="w-full px-4 py-2 border border-gray-300 rounded"
         required
       />
-
       <button
         type="submit"
         disabled={loading}
