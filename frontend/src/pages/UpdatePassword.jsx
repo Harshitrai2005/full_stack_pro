@@ -13,15 +13,20 @@ const UpdatePassword = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (newPassword !== confirmNewPassword) {
-      toast.error("New and confirm passwords do not match");
-      return;
-    }
+  if (newPassword !== confirmNewPassword) {
+    toast.error("New and confirm passwords do not match");
+    return;
+  }
 
-    dispatch(updatePassword({ oldPassword, newPassword }));
-  };
+  dispatch(updatePassword({
+    currentPassword: oldPassword,
+    newPassword,
+    confirmNewPassword,
+  }));
+};
+
 
   useEffect(() => {
     if (message) {
