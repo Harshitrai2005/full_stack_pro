@@ -6,6 +6,8 @@ import {
   promoteUserToAdmin,
 } from "../../store/slices/userSlice";
 import { toast } from "react-hot-toast";
+import { toggleReturnBookPopup } from "../../store/slices/popupSlice";
+import ReturnBookPopup from "../../popups/ReturnBookPopup";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -19,6 +21,8 @@ const Users = () => {
     promoteError,
     promoteMessage,
   } = useSelector((state) => state.user);
+
+  const { returnBookPopup } = useSelector((state) => state.popup);
 
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -52,6 +56,16 @@ const Users = () => {
     dispatch(promoteUserToAdmin(email));
   };
 
+  const handleReturnBookClick = (user) => {
+    dispatch(
+      toggleReturnBookPopup({
+        _id: user.borrowedBookId,
+        userEmail: user.email,
+        title: user.borrowedBookTitle,
+      })
+    );
+  };
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">All Users</h2>
@@ -75,8 +89,8 @@ const Users = () => {
                   <td className="py-2 px-4 border">{u.name}</td>
                   <td className="py-2 px-4 border">{u.email}</td>
                   <td className="py-2 px-4 border">{u.role}</td>
-                  <td className="py-2 px-4 border">
-                    {u.role !== "Admin" ? (
+                  <td className="py-2 px-4 border space-x-2">
+                    {u.role !== "Admin" && (
                       <button
                         onClick={() => handleMakeAdmin(u.email)}
                         className="bg-black text-white px-4 py-1 rounded hover:bg-gray-800 disabled:opacity-50"
@@ -84,8 +98,14 @@ const Users = () => {
                       >
                         {promoteLoading ? "Processing..." : "Make Admin"}
                       </button>
-                    ) : (
-                      <span className="text-green-600 font-semibold">Admin</span>
+                    )}
+                    {u.role !== "Admin" && u.borrowedBookId && (
+                      <button
+                        onClick={() => handleReturnBookClick(u)}
+                        className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+                      >
+                        Return Book
+                      </button>
                     )}
                   </td>
                 </tr>
@@ -100,6 +120,8 @@ const Users = () => {
           </tbody>
         </table>
       )}
+
+      {returnBookPopup && <ReturnBookPopup />}
     </div>
   );
 };
