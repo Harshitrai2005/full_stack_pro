@@ -26,7 +26,7 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
   const dispatch = useDispatch();
 
   const { popups } = useSelector((state) => state.popup);
-  const { isAuthenticated, user, error, message, loading } = useSelector(
+  const { isAuthenticated, user, error, message } = useSelector(
     (state) => state.auth
   );
 
@@ -102,8 +102,18 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
               onClick={() => setSelectedComponent("My Borrowed Books")}
               className="w-full py-2 font-medium flex items-center space-x-2"
             >
-              <img src={catalogIcon} alt="my-borrowed-books" />{" "}
+              <img src={catalogIcon} alt="my-borrowed-books" />
               <span>My Borrowed Books</span>
+            </button>
+          )}
+
+          {isAuthenticated && (
+            <button
+              onClick={() => setSelectedComponent("Update Password")}
+              className="w-full py-2 font-medium flex items-center space-x-2"
+            >
+              <img src={settingIcon} alt="update-password" />
+              <span>Update Password</span>
             </button>
           )}
 
@@ -111,7 +121,7 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
             onClick={() => dispatch(toggleSettingPopup())}
             className="md:hidden w-full py-2 font-medium flex items-center space-x-2"
           >
-            <img src={settingIcon} alt="setting" />{" "}
+            <img src={settingIcon} alt="setting" />
             <span>Update Credentials</span>
           </button>
         </nav>
