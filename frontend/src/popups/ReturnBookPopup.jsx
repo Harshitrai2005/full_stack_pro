@@ -10,13 +10,15 @@ const ReturnBookPopup = () => {
   const { returnBookPopupData } = useSelector((state) => state.popup);
 
   const [bookId] = useState(returnBookPopupData?._id || "");
+  const [email] = useState(returnBookPopupData?.userEmail || "");
 
   const handleReturn = () => {
-    if (!bookId) {
-      toast.error("Invalid Book ID");
+    if (!bookId || !email) {
+      toast.error("Missing book or email");
       return;
     }
-    dispatch(returnBook(bookId)).then(() => {
+
+    dispatch(returnBook(bookId, { email })).then(() => {
       toast.success("Book returned successfully");
       dispatch(toggleReturnBookPopup());
     });
@@ -41,8 +43,8 @@ const ReturnBookPopup = () => {
           Are you sure you want to return the book{" "}
           <span className="font-medium">
             {returnBookPopupData?.title || "Unknown"}
-          </span>
-          ?
+          </span>{" "}
+         ?
         </p>
 
         <div className="flex justify-between mt-4">
