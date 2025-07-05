@@ -84,7 +84,7 @@ export const addBook = (formData) => async (dispatch) => {
   }
 };
 
-export const fetchBooks = () => async (dispatch) => {
+export const fetchAllBooks = () => async (dispatch) => {
   dispatch(fetchBooksRequest());
   try {
     const { data } = await axios.get(`${API}/all`, {
