@@ -12,6 +12,9 @@ import { toggleReturnBookPopup } from "../store/slices/popupSlice";
 import { PiKeyReturnBold } from "react-icons/pi";
 import { FaSquareCheck } from "react-icons/fa6";
 
+
+import ReturnBookPopup from "../popups/ReturnBookPopup";
+
 const Catalog = () => {
   const dispatch = useDispatch();
   const { returnBookPopup } = useSelector((state) => state.popup);
@@ -20,8 +23,6 @@ const Catalog = () => {
   );
 
   const [filter, setFilter] = useState("borrowed");
-  const [email, setEmail] = useState("");
-  const [borrowedBook, setBorrowedBook] = useState(null);
 
   const formatDateTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -45,8 +46,13 @@ const Catalog = () => {
   const booksToDisplay = filter === "borrowed" ? borrowedBooks : overdueBooks;
 
   const openReturnBookPopup = (book) => {
-    setBorrowedBook(book);
-    dispatch(toggleReturnBookPopup(book)); 
+    dispatch(
+      toggleReturnBookPopup({
+        _id: book._id,
+        userEmail: book.user.email,
+        title: book.title,
+      })
+    );
   };
 
   useEffect(() => {
@@ -129,6 +135,9 @@ const Catalog = () => {
           ))}
         </div>
       )}
+
+  
+      {returnBookPopup && <ReturnBookPopup />}
     </div>
   );
 };
