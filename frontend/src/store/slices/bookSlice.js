@@ -76,7 +76,7 @@ export const addBook = (formData) => async (dispatch) => {
   try {
     const { data } = await axios.post(`${API}/admin/add`, formData, {
       withCredentials: true,
-      headers: { "Content-Type": "multipart/form-data" },
+      
     });
     dispatch(addBookSuccess(data.message));
   } catch (err) {
