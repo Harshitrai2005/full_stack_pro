@@ -24,8 +24,9 @@ const Users = () => {
   }, [dispatch, error, message]);
 
   const handleMakeAdmin = (email) => {
-    dispatch(addNewAdmin(email));
-  };
+  dispatch(addNewAdmin({ email }));
+};
+
 
   return (
     <div className="p-6">
