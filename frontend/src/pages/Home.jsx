@@ -34,8 +34,7 @@ const Home = () => {
         return user?.role === "Admin" ? <Users /> : null;
       case "My Borrowed Books":
         return <MyBorrowedBooks />;
-      case "Update Password":
-        return <UpdatePassword />;
+      
       default:
         return user?.role === "User" ? <UserDashBoard /> : <AdminDashBoard />;
     }
