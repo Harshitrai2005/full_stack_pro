@@ -107,15 +107,7 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
             </button>
           )}
 
-          {isAuthenticated && (
-            <button
-              onClick={() => setSelectedComponent("Update Password")}
-              className="w-full py-2 font-medium flex items-center space-x-2"
-            >
-              <img src={settingIcon} alt="update-password" />
-              <span>Update Password</span>
-            </button>
-          )}
+        
 
           <button
             onClick={() => dispatch(toggleSettingPopup())}
