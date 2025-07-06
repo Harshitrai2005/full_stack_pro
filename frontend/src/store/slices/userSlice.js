@@ -107,7 +107,7 @@ export const addNewAdmin = (formData) => async (dispatch) => {
   }
 };
 
-export const promoteUserToAdmin = (email) => async (dispatch) => {
+export const promoteUserToAdmin = ({email}) => async (dispatch) => {
   dispatch(promoteUserRequest());
   try {
     const { data } = await axios.post(
