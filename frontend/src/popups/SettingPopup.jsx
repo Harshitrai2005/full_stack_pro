@@ -20,10 +20,8 @@ const SettingPopup = () => {
       toast.error("Passwords do not match");
       return;
     }
-    const formData = new FormData();
-    formData.append("oldPassword", oldPassword);
-    formData.append("newPassword", newPassword);
-    dispatch(updatePassword(formData));
+    
+    dispatch(updatePassword({oldPassword,newPassword,confirmPassword}));
   };
 
   const handleCancel = () => {
