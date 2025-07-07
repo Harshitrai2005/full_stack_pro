@@ -162,7 +162,7 @@ const BookManagement = () => {
 
       {addBookPopup && <AddBookPopup />}
       {readBookPopup && selectedBook && <ReadBookPopup book={selectedBook} />} 
-      {recordBookPopup && selectedBook && <RecordBookPopup book={selectedBook} />}
+      {recordBookPopup && selectedBook && <RecordBookPopup bookId={selectedBook} />}
     </div>
   );
 };
