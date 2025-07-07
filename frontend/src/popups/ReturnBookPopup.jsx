@@ -14,24 +14,22 @@ const ReturnBookPopup = () => {
 
 
   const handleReturn = () => {
-    if (!bookId || !email) {
-      toast.error("Missing book or email");
-      return;
-    }
+  if (!bookId || !email) {
+    toast.error("Missing book or email");
+    return;
+  }
 
-     dispatch(returnBorrowedBook({ bookId, email }))
-  .unwrap()
-  .then(() => {
-    toast.success("Book returned successfully");
-    dispatch(toggleReturnBookPopup());
-  })
-  .catch((err) => {
-    toast.error(err.message || "Failed to return book");
-  });
+  dispatch(returnBorrowedBook({ bookId, email }))
+    .unwrap()
+    .then(() => {
+      toast.success("Book returned successfully");
+      dispatch(toggleReturnBookPopup());
+    })
+    .catch((err) => {
+      toast.error(err.message || "Failed to return book");
+    });
+};
 
-});
-
-  };
 
   const handleClose = () => {
     dispatch(toggleReturnBookPopup());
