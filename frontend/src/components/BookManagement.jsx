@@ -41,6 +41,13 @@ const BookManagement = () => {
     }
   }, [search, books]);
 
+  useEffect(() => {
+   if (!readBookPopup && !recordBookPopup) {
+    setSelectedBook(null);
+  }
+  }, [readBookPopup, recordBookPopup]);
+
+
   const openReadPopup = (book) => {
     setSelectedBook(book);
     dispatch(toggleReadBookPopup());
