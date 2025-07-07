@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 
 import {
-  toggleAddNewAdminPopup,
-  toggleSettingPopup,
   resetAuthSlice,
   logout,
 } from "../store/slices/authSlice";
+
+import {
+  toggleAddNewAdminPopup,
+  toggleSettingPopup,
+} from "../store/slices/popupSlice";
 
 import logo_with_title from "../assets/logo-with-title.png";
 import logoutIcon from "../assets/logout.png";
