@@ -96,10 +96,10 @@ export const fetchAllBooks = () => async (dispatch) => {
   }
 };
 
-export const deleteBook = (id) => async (dispatch) => {
+export const deleteBook = ({ bookId}) => async (dispatch) => {
   dispatch(deleteBookRequest());
   try {
-    const { data } = await axios.delete(`${API}/delete/${id}`, {
+    const { data } = await axios.delete(`${API}/delete/${ bookId}`, {
       withCredentials: true,
     });
     dispatch(deleteBookSuccess(data.message));
