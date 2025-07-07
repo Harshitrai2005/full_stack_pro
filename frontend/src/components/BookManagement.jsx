@@ -60,7 +60,7 @@ const BookManagement = () => {
 
   const handleDeleteBook = (bookId) => {
     if (window.confirm("Are you sure you want to delete this book?")) {
-      dispatch(deleteBook(bookId)).then(() => {
+      dispatch(deleteBook({bookId})).then(() => {
         toast.success("Book deleted successfully!");
         dispatch(fetchAllBooks());
       });
