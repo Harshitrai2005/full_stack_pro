@@ -24,7 +24,7 @@ const BookManagement = () => {
 
   const [search, setSearch] = useState("");
   const [filteredBooks, setFilteredBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null); 
+  const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
     dispatch(fetchAllBooks());
@@ -42,11 +42,10 @@ const BookManagement = () => {
   }, [search, books]);
 
   useEffect(() => {
-   if (!readBookPopup && !recordBookPopup) {
-    setSelectedBook(null);
-  }
+    if (!readBookPopup && !recordBookPopup) {
+      setSelectedBook(null);
+    }
   }, [readBookPopup, recordBookPopup]);
-
 
   const openReadPopup = (book) => {
     setSelectedBook(book);
@@ -60,7 +59,7 @@ const BookManagement = () => {
 
   const handleDeleteBook = (bookId) => {
     if (window.confirm("Are you sure you want to delete this book?")) {
-      dispatch(deleteBook({bookId})).then(() => {
+      dispatch(deleteBook({ bookId })).then(() => {
         toast.success("Book deleted successfully!");
         dispatch(fetchAllBooks());
       });
@@ -96,7 +95,7 @@ const BookManagement = () => {
           <table className="min-w-full border border-gray-300 rounded-lg overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="px-6 py-3 text-left">Name</th>
+                <th className="px-6 py-3 text-left">Author</th>
                 <th className="px-6 py-3 text-left">Title</th>
                 <th className="px-6 py-3 text-left">Price</th>
                 <th className="px-6 py-3 text-left">Quantity</th>
@@ -116,7 +115,7 @@ const BookManagement = () => {
                   key={book._id}
                   className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}
                 >
-                  <td className="px-6 py-4">{book.name}</td>
+                  <td className="px-6 py-4">{book.author}</td>
                   <td className="px-6 py-4">{book.title}</td>
                   <td className="px-6 py-4">₹{book.price}</td>
                   <td className="px-6 py-4">{book.quantity}</td>
@@ -161,10 +160,11 @@ const BookManagement = () => {
       )}
 
       {addBookPopup && <AddBookPopup />}
-      {readBookPopup && selectedBook && <ReadBookPopup book={selectedBook} />} 
-      {recordBookPopup && selectedBook && <RecordBookPopup bookId={selectedBook} />}
+      {readBookPopup && selectedBook && <ReadBookPopup book={selectedBook} />}
+      {recordBookPopup && selectedBook && <RecordBookPopup bookId={selectedBook._id} />}
     </div>
   );
 };
 
 export default BookManagement;
+
