@@ -48,7 +48,7 @@ const Users = () => {
     }
   }, [dispatch, promoteMessage, promoteError]);
 
-  const handleMakeAdmin = ({email}) => {
+  const handleMakeAdmin = (email) => {
     dispatch(promoteUserToAdmin({email}));
   };
 
