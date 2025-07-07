@@ -9,8 +9,9 @@ const ReturnBookPopup = () => {
   const dispatch = useDispatch();
   const { returnBookPopupData } = useSelector((state) => state.popup);
 
-  const [bookId] = useState(returnBookPopupData?._id || "");
-  const [email] = useState(returnBookPopupData?.userEmail || "");
+  const bookId = returnBookPopupData?._id || "";
+  const email = returnBookPopupData?.userEmail || "";
+
 
   const handleReturn = () => {
     if (!bookId || !email) {
