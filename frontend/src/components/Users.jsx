@@ -48,8 +48,8 @@ const Users = () => {
     }
   }, [dispatch, promoteMessage, promoteError]);
 
-  const handleMakeAdmin = (email) => {
-    dispatch(promoteUserToAdmin(email));
+  const handleMakeAdmin = ({email}) => {
+    dispatch(promoteUserToAdmin({email}));
   };
 
   return (
