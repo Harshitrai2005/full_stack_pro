@@ -57,17 +57,14 @@ const BookManagement = () => {
     dispatch(toggleRecordBookPopup());
   };
   
-  const handleDeleteBook = async (bookId) => {
+  const handleDeleteBook = (bookId) => {
   if (window.confirm("Are you sure you want to delete this book?")) {
-    try {
-      await dispatch(deleteBook({ bookId }));
-      toast.success("Book deleted successfully!");
-      dispatch(fetchAllBooks());
-    } catch (error) {
-      toast.error(error.message || "Failed to delete the book. Please try again.");
-    }
+    dispatch(deleteBook({ bookId }));
+    toast.success("Book deleted successfully!");
+    dispatch(fetchAllBooks());
   }
 };
+
 
 
   return (
