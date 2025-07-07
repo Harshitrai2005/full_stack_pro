@@ -30,7 +30,7 @@ const App = () => {
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/otp-verification/:email" element={<OTP />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />
-        <Route path="/password/update" element={<UpdatePassword />} />
+       
       </Routes>
       <ToastContainer theme="dark" />
     </Router>
