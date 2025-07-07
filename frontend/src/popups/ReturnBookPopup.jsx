@@ -19,9 +19,16 @@ const ReturnBookPopup = () => {
       return;
     }
 
-    dispatch(returnBorrowedBook({ bookId, email })).then(() => {
-  toast.success("Book returned successfully");
-  dispatch(toggleReturnBookPopup());
+     dispatch(returnBorrowedBook({ bookId, email }))
+  .unwrap()
+  .then(() => {
+    toast.success("Book returned successfully");
+    dispatch(toggleReturnBookPopup());
+  })
+  .catch((err) => {
+    toast.error(err.message || "Failed to return book");
+  });
+
 });
 
   };
