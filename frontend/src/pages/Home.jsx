@@ -10,7 +10,7 @@ import BookManagement from "../components/BookManagement";
 import Users from "../components/Users";
 import MyBorrowedBooks from "../components/MyBorrowedBooks";
 import UpdatePassword from "./UpdatePassword";
-
+import Catalog from "../components/Catalog";
 
 const Home = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
@@ -29,7 +29,7 @@ const Home = () => {
       case "Books":
         return <BookManagement />;
       case "Catalog":
-        return user?.role === "Admin" ? <Users /> : null;
+        return user?.role === "Admin" ? <Catalog/> : null;
       case "Users":
         return user?.role === "Admin" ? <Users /> : null;
       case "My Borrowed Books":
