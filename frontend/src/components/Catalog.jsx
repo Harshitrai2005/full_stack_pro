@@ -85,15 +85,15 @@ const Catalog = () => {
           }`}
           onClick={() => setFilter("borrowed")}
         >
-          overtime-due
+          borrowed not overdue
         </button>
         <button
           className={`px-4 py-2 rounded ${
             filter === "overdue" ? "bg-red-600 text-white" : "bg-gray-200"
           }`}
           onClick={() => setFilter("overdue")}
-        >
-         borrowed(not overdue)
+      >
+          Overdue
         </button>
       </div>
 
