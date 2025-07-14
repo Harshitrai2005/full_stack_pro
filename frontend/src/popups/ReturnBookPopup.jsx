@@ -20,15 +20,16 @@ return;
 
 
 dispatch(returnBorrowedBook({ bookId, email }))
-  .then(() => {
-    toast.success("Book returned successfully");
-    dispatch(toggleReturnBookPopup());
-    dispatch(fetchAllBorrowedBooks());
-    dispatch(fetchAllBooks());
-  })
-  .catch((err) => {
-    toast.error(err.message || "Failed to return book");
-  });
+      .then((res) => {
+        toast.success(res.message || "Book returned successfully");
+        dispatch(toggleReturnBookPopup());
+        dispatch(fetchAllBorrowedBooks());
+        dispatch(fetchAllBooks());
+      })
+      .catch((err) => {
+        toast.error(err.message || "Failed to return book");
+      });
+  
 };
 
 const handleClose = () => {
