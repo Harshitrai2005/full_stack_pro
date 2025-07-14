@@ -8,13 +8,13 @@ const RecordBookPopup = ({ bookId }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
 
-  const handleRecordBook = (e) => {
+  const handleRecordBook = async (e) => {
     e.preventDefault();
     dispatch(recordBorrowedBook({ bookId, email }))
-      .then(() => {
-        toast.success("Book recorded successfully");
-        dispatch(fetchAllBorrowedBooks());
+      .then((res) => {
+        toast.success(res.message || "Book recorded successfully");
         dispatch(toggleRecordBookPopup());
+        dispatch(fetchAllBorrowedBooks()); 
       })
       .catch((err) => {
         toast.error(err.message || "Failed to record book");
