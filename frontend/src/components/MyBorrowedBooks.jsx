@@ -57,16 +57,24 @@ const MyBorrowedBooks = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {userBorrowedBooks.map((book, index) => (
                   <tr
-                    key={book._id}
+                    key={book._id || index}
                     className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}
                   >
                     <td className="px-6 py-4 text-sm font-medium">{index + 1}</td>
-                    <td className="px-6 py-4 text-sm">{book.book?.title || "Untitled"}</td>
-                    <td className="px-6 py-4 text-sm">₹{book.price}</td>
-                    <td className="px-6 py-4 text-sm">{formatDateTime(book.borrowedDate)}</td>
-                    <td className="px-6 py-4 text-sm">{formatDateTime(book.returnDate)}</td>
                     <td className="px-6 py-4 text-sm">
-                      {book.returnDate ? "Returned" : "Borrowed"}
+                      {book.bookId?.title || "Untitled"}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      ₹{book.bookId?.price || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {formatDateTime(book.borrowedDate)}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {book.returned ? formatDateTime(book.returnDate) : "Not Returned"}
+                    </td>
+                    <td className="px-6 py-4 text-sm">
+                      {book.returned ? "Returned" : "Borrowed"}
                     </td>
                   </tr>
                 ))}
