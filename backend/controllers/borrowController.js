@@ -7,8 +7,8 @@ import { calculateFine } from "../utils/fineCalculator.js";
 
 // Record a borrowed book
 export const recordBorrowedBooks = catchAsyncErrors(async (req, res, next) => {
-  const { id } = req.params;
-  const { email } = req.body;
+  const id = req.params.id.trim();
+  const email = req.body.email.trim();
 
   const book = await Book.findById(id);
   if (!book) return next(new ErrorHandler("Book not found", 404));
@@ -69,7 +69,6 @@ export const borrowedBooks = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 // Admin: Get all borrowed book records
 export const getBorrowedBooksForAdmin = catchAsyncErrors(async (req, res, next) => {
   const borrowedBooks = await Borrow.find()
@@ -82,12 +81,10 @@ export const getBorrowedBooksForAdmin = catchAsyncErrors(async (req, res, next) 
   });
 });
 
-
-
 // Return a borrowed book
 export const returnBorrowedBook = catchAsyncErrors(async (req, res, next) => {
-  const { bookId } = req.params;
-  const { email } = req.body;
+  const bookId = req.params.bookId.trim();
+  const email = req.body.email.trim();
 
   const book = await Book.findById(bookId);
   if (!book) return next(new ErrorHandler("Book not found", 404));
