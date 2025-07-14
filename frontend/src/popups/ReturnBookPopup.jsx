@@ -22,7 +22,6 @@ less
 Copy
 Edit
 dispatch(returnBorrowedBook({ bookId, email }))
-  .unwrap()
   .then(() => {
     toast.success("Book returned successfully");
     dispatch(toggleReturnBookPopup());
