@@ -64,9 +64,7 @@ return (
 <div className="p-6 max-w-6xl mx-auto">
 <h1 className="text-3xl font-semibold mb-8 text-center">Admin Dashboard</h1>
 
-php-template
-Copy
-Edit
+
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="bg-white shadow rounded-lg p-5 flex items-center gap-4">
         <img src={userIcon} alt="users" className="h-12 w-12" />
