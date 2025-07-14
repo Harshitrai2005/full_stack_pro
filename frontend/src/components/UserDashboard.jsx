@@ -39,15 +39,16 @@ const UserDashboard = () => {
     dispatch(fetchUserBorrowedBooks());
   }, [dispatch]);
 
-  const totalBorrowed = useMemo(
-    () => userBorrowedBooks.filter((b) => b.returnDate === null).length,
-    [userBorrowedBooks]
-  );
+ const totalBorrowed = useMemo(
+  () => userBorrowedBooks.filter((b) => b.returned === false).length,
+  [userBorrowedBooks]
+);
 
-  const totalReturned = useMemo(
-    () => userBorrowedBooks.filter((b) => b.returnDate !== null).length,
-    [userBorrowedBooks]
-  );
+const totalReturned = useMemo(
+  () => userBorrowedBooks.filter((b) => b.returned === true).length,
+  [userBorrowedBooks]
+);
+
 
   const chartData = {
     labels: ["Currently Borrowed", "Returned"],
