@@ -18,9 +18,7 @@ toast.error("Missing book or email");
 return;
 }
 
-less
-Copy
-Edit
+
 dispatch(returnBorrowedBook({ bookId, email }))
   .then(() => {
     toast.success("Book returned successfully");
