@@ -31,7 +31,7 @@ export const userschema= new mongoose.Schema({
         {
             bookId:{
                 type:mongoose.Schema.Types.ObjectId,
-                ref:"Borrow"
+                ref:"Book"
             },
             returned:{
                 type:Boolean,
