@@ -71,7 +71,7 @@ export const borrowedBooks = catchAsyncErrors(async (req, res, next) => {
 
 // Admin: Get all borrowed book records
 export const getBorrowedBooksForAdmin = catchAsyncErrors(async (req, res, next) => {
-  const borrowedBooks = await Borrow.find({ returnDate: null })
+  const borrowedBooks = await Borrow.find()
     .populate("book")
     .sort({ dueDate: -1 });
 
@@ -80,6 +80,7 @@ export const getBorrowedBooksForAdmin = catchAsyncErrors(async (req, res, next) 
     borrowedBooks,
   });
 });
+
 
 
 // Return a borrowed book
