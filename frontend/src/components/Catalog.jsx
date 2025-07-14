@@ -36,11 +36,12 @@ const Catalog = () => {
   const currentDate = new Date();
 
   const borrowedBooks = allBorrowedBooks?.filter(
-    (borrow) => new Date(borrow.dueDate) > currentDate
-  );
-  const overdueBooks = allBorrowedBooks?.filter(
-    (borrow) => new Date(borrow.dueDate) <= currentDate
-  );
+  (borrow) => borrow.returnDate === null && new Date(borrow.dueDate) > currentDate
+);
+const overdueBooks = allBorrowedBooks?.filter(
+  (borrow) => borrow.returnDate === null && new Date(borrow.dueDate) <= currentDate
+);
+
   const booksToDisplay = filter === "borrowed" ? borrowedBooks : overdueBooks;
 
   const openReturnBookPopup = (borrow) => {
