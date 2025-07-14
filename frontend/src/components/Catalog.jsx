@@ -36,11 +36,11 @@ const Catalog = () => {
   const currentDate = new Date();
 
   const borrowedBooks = allBorrowedBooks?.filter(
-  (borrow) => borrow.returnDate === null && new Date(borrow.dueDate) > currentDate
-);
-const overdueBooks = allBorrowedBooks?.filter(
-  (borrow) => borrow.returnDate === null && new Date(borrow.dueDate) <= currentDate
-);
+    (borrow) => borrow.returnDate === null && new Date(borrow.dueDate) > currentDate
+  );
+  const overdueBooks = allBorrowedBooks?.filter(
+    (borrow) => borrow.returnDate === null && new Date(borrow.dueDate) <= currentDate
+  );
 
   const booksToDisplay = filter === "borrowed" ? borrowedBooks : overdueBooks;
 
@@ -61,8 +61,6 @@ const overdueBooks = allBorrowedBooks?.filter(
   useEffect(() => {
     if (message) {
       toast.success(message);
-      dispatch(fetchAllBooks());
-      dispatch(fetchAllBorrowedBooks());
       dispatch(resetBookSlice());
       dispatch(resetBorrowSlice());
     }
@@ -97,9 +95,11 @@ const overdueBooks = allBorrowedBooks?.filter(
 
       {loading ? (
         <p>Loading...</p>
+      ) : booksToDisplay?.length === 0 ? (
+        <p className="text-center text-gray-500">No books to show in this category.</p>
       ) : (
         <div className="space-y-3">
-          {booksToDisplay?.map((borrow) => (
+          {booksToDisplay.map((borrow) => (
             <div
               key={borrow._id}
               className="p-4 border rounded shadow flex justify-between items-center"
