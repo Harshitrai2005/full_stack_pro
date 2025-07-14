@@ -42,9 +42,7 @@ return (
 <img src={closeIcon} alt="close" className="w-6 h-6 absolute right-4 top-4 cursor-pointer" onClick={handleClose} />
 <h2 className="text-xl font-semibold mb-4 text-center">Return Book</h2>
 
-php-template
-Copy
-Edit
+
     <p className="text-gray-700 mb-6 text-center">
       Are you sure you want to return this book?
     </p>
