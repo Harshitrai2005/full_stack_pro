@@ -8,10 +8,8 @@ import {
 import { fetchAllBooks, resetBookSlice } from "../store/slices/bookSlice";
 import { toggleReturnBookPopup } from "../store/slices/popupSlice";
 
-// Icons
 import { PiKeyReturnBold } from "react-icons/pi";
 import { FaSquareCheck } from "react-icons/fa6";
-
 
 import ReturnBookPopup from "../popups/ReturnBookPopup";
 
@@ -38,19 +36,18 @@ const Catalog = () => {
   const currentDate = new Date();
 
   const borrowedBooks = allBorrowedBooks?.filter(
-    (book) => new Date(book.dueDate) > currentDate
+    (borrow) => new Date(borrow.dueDate) > currentDate
   );
   const overdueBooks = allBorrowedBooks?.filter(
-    (book) => new Date(book.dueDate) <= currentDate
+    (borrow) => new Date(borrow.dueDate) <= currentDate
   );
   const booksToDisplay = filter === "borrowed" ? borrowedBooks : overdueBooks;
 
-  const openReturnBookPopup = (book) => {
+  const openReturnBookPopup = (borrow) => {
     dispatch(
       toggleReturnBookPopup({
-        _id: book._id,
-        userEmail: book.user.email,
-        title: book.title,
+        _id: borrow.book._id,
+        userEmail: borrow.user.email,
       })
     );
   };
@@ -85,14 +82,14 @@ const Catalog = () => {
           }`}
           onClick={() => setFilter("borrowed")}
         >
-          borrowed not overdue
+          Borrowed Not Overdue
         </button>
         <button
           className={`px-4 py-2 rounded ${
             filter === "overdue" ? "bg-red-600 text-white" : "bg-gray-200"
           }`}
           onClick={() => setFilter("overdue")}
-      >
+        >
           Overdue
         </button>
       </div>
@@ -101,26 +98,26 @@ const Catalog = () => {
         <p>Loading...</p>
       ) : (
         <div className="space-y-3">
-          {booksToDisplay?.map((book) => (
+          {booksToDisplay?.map((borrow) => (
             <div
-              key={book._id}
+              key={borrow._id}
               className="p-4 border rounded shadow flex justify-between items-center"
             >
               <div>
                 <p>
-                  <strong>Title:</strong> {book.title}
+                  <strong>Book ID:</strong> {borrow.book?._id}
                 </p>
                 <p>
-                  <strong>Email:</strong> {book.user.email}
+                  <strong>Email:</strong> {borrow.user?.email}
                 </p>
                 <p>
-                  <strong>Due Date:</strong> {formatDateTime(book.dueDate)}
+                  <strong>Due Date:</strong> {formatDateTime(borrow.dueDate)}
                 </p>
               </div>
               <div className="flex flex-col items-end gap-2">
                 {filter === "borrowed" ? (
                   <button
-                    onClick={() => openReturnBookPopup(book)}
+                    onClick={() => openReturnBookPopup(borrow)}
                     className="flex items-center gap-2 px-3 py-2 bg-black text-white rounded hover:bg-gray-800"
                   >
                     <PiKeyReturnBold size={18} /> Return
@@ -136,7 +133,6 @@ const Catalog = () => {
         </div>
       )}
 
-  
       {returnBookPopup && <ReturnBookPopup />}
     </div>
   );
