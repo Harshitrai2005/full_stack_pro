@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { recordBorrowedBook } from "../store/slices/borrowSlice";
+import { recordBorrowedBook, fetchAllBorrowedBooks } from "../store/slices/borrowSlice";
 import { toggleRecordBookPopup } from "../store/slices/popupSlice";
+import { toast } from "react-hot-toast";
 
 const RecordBookPopup = ({ bookId }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
 
   const handleRecordBook = (e) => {
-  e.preventDefault();
-  dispatch(recordBorrowedBook({ bookId, email }))
-  .then(() => {
-    toast.success("Book recorded successfully");
-    dispatch(toggleRecordBookPopup());
-  });
-
-};
-
+    e.preventDefault();
+    dispatch(recordBorrowedBook({ bookId, email }))
+      .then(() => {
+        toast.success("Book recorded successfully");
+        dispatch(fetchAllBorrowedBooks());
+        dispatch(toggleRecordBookPopup());
+      })
+      .catch((err) => {
+        toast.error(err.message || "Failed to record book");
+      });
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 p-5 flex items-center justify-center z-50">
