@@ -130,7 +130,7 @@ export const returnBorrowedBook = ({ bookId, email }) => async (dispatch) => {
   try {
     const { data } = await axios.put(
       `${API}/return-borrowed-book/${bookId}`,
-      { email }, // this is your JSON body
+      { email },
       {
         withCredentials: true,
         headers: {
@@ -139,8 +139,11 @@ export const returnBorrowedBook = ({ bookId, email }) => async (dispatch) => {
       }
     );
     dispatch(returnBorrowedBookSuccess(data.message));
+    return data; // so .then(res => toast.success(res.message)) is also possible
   } catch (err) {
-    dispatch(returnBorrowedBookFailed(err.response?.data?.message || "Failed"));
+    const errorMsg = err.response?.data?.message || "Failed";
+    dispatch(returnBorrowedBookFailed(errorMsg));
+    throw new Error(errorMsg); // allows .catch() to receive it
   }
 };
 
