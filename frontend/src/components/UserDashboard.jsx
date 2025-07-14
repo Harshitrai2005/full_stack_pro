@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserBorrowedBooks } from "../store/slices/borrowSlice";
 import { Pie } from "react-chartjs-2";
@@ -15,7 +15,6 @@ import {
   ArcElement,
 } from "chart.js";
 import Header from "../layout/Header";
-import logo_with_title from "../assets/logo-with-title-black.png";
 import returnIcon from "../assets/redo.png";
 import browseIcon from "../assets/pointing.png";
 import bookIcon from "../assets/book-square.png";
@@ -40,14 +39,21 @@ const UserDashboard = () => {
     dispatch(fetchUserBorrowedBooks());
   }, [dispatch]);
 
-  const totalBorrowed = userBorrowedBooks.filter(b => !b.returned).length;
-  const totalReturned = userBorrowedBooks.filter(b => b.returned).length;
+  const totalBorrowed = useMemo(
+    () => userBorrowedBooks.filter((b) => b.returnDate === null).length,
+    [userBorrowedBooks]
+  );
+
+  const totalReturned = useMemo(
+    () => userBorrowedBooks.filter((b) => b.returnDate !== null).length,
+    [userBorrowedBooks]
+  );
 
   const chartData = {
-    labels: ["Borrowed", "Returned"],
+    labels: ["Currently Borrowed", "Returned"],
     datasets: [
       {
-        label: "Books",
+        label: "Book Stats",
         data: [totalBorrowed, totalReturned],
         backgroundColor: ["#facc15", "#34d399"],
         borderColor: ["#fff", "#fff"],
@@ -66,7 +72,7 @@ const UserDashboard = () => {
           <div className="bg-white shadow rounded-lg p-5 flex items-center gap-4">
             <img src={bookIcon} alt="bookIcon" className="h-12 w-12" />
             <div>
-              <p className="text-gray-500 text-sm">Total Borrowed</p>
+              <p className="text-gray-500 text-sm">Currently Borrowed</p>
               <h2 className="text-2xl font-bold text-yellow-500">{totalBorrowed}</h2>
             </div>
           </div>
