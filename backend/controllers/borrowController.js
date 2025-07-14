@@ -61,13 +61,14 @@ export const recordBorrowedBooks = catchAsyncErrors(async (req, res, next) => {
 
 // Get books borrowed by logged-in user
 export const borrowedBooks = catchAsyncErrors(async (req, res, next) => {
-  const { borrowedBooks } = req.user;
+  const userWithBooks = await User.findById(req.user._id).populate("borrowedBooks.bookId");
 
   res.status(200).json({
     success: true,
-    borrowedBooks,
+    borrowedBooks: userWithBooks.borrowedBooks,
   });
 });
+
 
 // Admin: Get all borrowed book records
 export const getBorrowedBooksForAdmin = catchAsyncErrors(async (req, res, next) => {
