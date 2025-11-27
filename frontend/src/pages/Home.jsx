@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-import SideBar from "../components/SideBar";
+import SideBar from "../layout/SideBar";
 import UserDashBoard from "../components/UserDashBoard";
 import AdminDashBoard from "../components/AdminDashBoard";
 import BookManagement from "../components/BookManagement";
