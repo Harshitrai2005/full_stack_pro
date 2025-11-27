@@ -6,7 +6,7 @@ import {
   resetBorrowSlice,
 } from "../store/slices/borrowSlice";
 import { fetchAllBooks, resetBookSlice } from "../store/slices/bookSlice";
-import { toggleReturnBookPopup } from "../store/slices/popupSlice";
+import { toggleReturnBookPopup } from "../store/slices/popUpSlice";
 
 import { PiKeyReturnBold } from "react-icons/pi";
 import { FaSquareCheck } from "react-icons/fa6";
