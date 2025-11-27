@@ -42,13 +42,8 @@ async function startApp() {
     connectDB();
     console.log("Database connected successfully.");
 
-    // Start cron jobs after DB connection
-    
-
-    // Optional: start your server here if you want
-    // app.listen(4000, () => {
-    //   console.log("Server started on port 4000");
-    // });
+    notifyUsers();
+    removeUnverifiedAccounts();
 
   } catch (err) {
     console.error("Failed to connect to database", err);
