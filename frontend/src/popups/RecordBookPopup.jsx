@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { recordBorrowedBook, fetchAllBorrowedBooks } from "../store/slices/borrowSlice";
-import { toggleRecordBookPopup } from "../store/slices/popupSlice";
+import { toggleRecordBookPopup } from "../store/slices/popUpSlice";
 import { toast } from "react-hot-toast";
 
 const RecordBookPopup = ({ bookId }) => {
