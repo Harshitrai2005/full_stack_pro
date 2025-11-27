@@ -10,7 +10,7 @@ import {
 import {
   toggleAddNewAdminPopup,
   toggleSettingPopup,
-} from "../store/slices/popupSlice";
+} from "../store/slices/popUpSlice";
 
 import logo_with_title from "../assets/logo-with-title.png";
 import logoutIcon from "../assets/logout.png";
@@ -22,13 +22,13 @@ import settingIcon from "../assets/setting-white.png";
 import usersIcon from "../assets/people.png";
 import { RiAdminFill } from "react-icons/ri";
 
-import AddNewAdmin from "../popups/AddNewAdminPopup";
+import AddNewAdmin from "../popups/AddNewAdmin";
 import SettingPopup from "../popups/SettingPopup";
 
 const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
   const dispatch = useDispatch();
 
-  const { popups } = useSelector((state) => state.popup);
+  const { addNewAdminPopup, settingPopup } = useSelector((state) => state.popup);
   const { isAuthenticated, user, error, message } = useSelector(
     (state) => state.auth
   );
@@ -138,8 +138,8 @@ const SideBar = ({ isSideBarOpen, setIsSideBarOpen, setSelectedComponent }) => {
         />
       </aside>
 
-      {popups.addNewAdminPopup && <AddNewAdmin />}
-      {popups.settingPopup && <SettingPopup />}
+      {addNewAdminPopup && <AddNewAdmin />}
+      {settingPopup && <SettingPopup />}
     </>
   );
 };
