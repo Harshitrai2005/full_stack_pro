@@ -8,7 +8,7 @@ import {
   toggleAddBookPopup,
   toggleReadBookPopup,
   toggleRecordBookPopup,
-} from "../store/slices/popupSlice";
+} from "../store/slices/popUpSlice";
 
 import AddBookPopup from "../popups/AddBookPopup";
 import ReadBookPopup from "../popups/ReadBookPopup";
