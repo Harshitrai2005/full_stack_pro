@@ -4,7 +4,7 @@ import closeIcon from "../assets/close-square.png";
 import keyIcon from "../assets/key.png";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewAdmin, resetUserSlice } from "../store/slices/userSlice";
-import { toggleAddNewAdminPopup } from "../store/slices/popupSlice";
+import { toggleAddNewAdminPopup } from "../store/slices/popUpSlice";
 import { toast } from "react-hot-toast";
 
 const AddNewAdmin = () => {
