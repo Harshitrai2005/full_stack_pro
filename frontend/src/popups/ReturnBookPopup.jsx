@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { returnBorrowedBook, fetchAllBorrowedBooks} from "../store/slices/borrowSlice";
 import {fetchAllBooks} from "../store/slices/bookSlice";
 import { toast } from "react-hot-toast";
-import { toggleReturnBookPopup } from "../store/slices/popupSlice";
+import { toggleReturnBookPopup } from "../store/slices/popUpSlice";
 
 const ReturnBookPopup = () => {
 const dispatch = useDispatch();
