@@ -3,7 +3,7 @@ import closeIcon from "../assets/close-square.png";
 import keyIcon from "../assets/key.png";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePassword, resetAuthSlice } from "../store/slices/authSlice";
-import { toggleSettingPopup } from "../store/slices/popupSlice";
+import { toggleSettingPopup } from "../store/slices/popUpSlice";
 import { toast } from "react-hot-toast";
 
 const SettingPopup = () => {
